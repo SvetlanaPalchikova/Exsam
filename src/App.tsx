@@ -15,12 +15,15 @@ function resetCounter() {
 }
     return (
         <div className={"button"}>
+            <div>
             <Button
                 value={value}
                 add={addCounter}
                 reset={resetCounter}
                 />
+            </div>
         </div>
+
     )
 
 }
