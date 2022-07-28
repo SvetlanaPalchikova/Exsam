@@ -3,16 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.module.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import App2 from "./App2";
-import style from "./index.module.css"
+
 
 ReactDOM.render(
     <React.StrictMode>
-        <div className={style.counter}>
             <App/>
-            <App2/>
-        </div>
-
     </React.StrictMode>,
     document.getElementById('root')
 );
