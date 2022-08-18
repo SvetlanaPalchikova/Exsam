@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import './Button.css';
+import React, {useEffect, useState} from 'react';
+import style from './App.module.css';
 import {Present} from "./Present";
 import {Settings} from "./Settings";
 
- export type TValues = {
+export type TValues = {
     min: number
     max: number
 }
@@ -11,6 +11,29 @@ import {Settings} from "./Settings";
 function App() {
     const [initialValues, setInitialValues] = useState<TValues>({min: 0, max: 5})
     const [usedValues, setUsedValues] = useState<TValues>({min: 0, max: 5})
+
+    useEffect(() => {
+        let usedValuesFromLocalStorage = localStorage.getItem('usedValues')
+        if (usedValuesFromLocalStorage) {
+            setUsedValues(JSON.parse(usedValuesFromLocalStorage))
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('usedValues', JSON.stringify(usedValues))
+    }, [usedValues])
+
+    // useEffect(() => {
+    //     let initialValueAsString = localStorage.getItem('counterInitialValue')
+    //     if(initialValueAsString) {
+    //         let newInitialValue = JSON.parse(initialValueAsString)
+    //         setUsedValues(newInitialValue)
+    //     }
+    // }, [])
+    //
+    // useEffect( () => {
+    //     localStorage.setItem('counterInitialValue', JSON.stringify(initialValues))
+    // }, [initialValues])
 
     const changeCounter = () => {
         const newCount = usedValues.min + 1
@@ -27,21 +50,19 @@ function App() {
     }
 
     return (
-        <div className={"button"}>
-
-            <div>
-                <Settings
-                    setValues={setValues}
-                    initialValues={initialValues}
-                    usedValues={usedValues}/>
-                <Present
-                    change={changeCounter}
-                    reset={resetCounter}
-                    initialValues={initialValues}
-                    usedValues={usedValues}
-                />
-            </div>
+        <div className={style.container}>
+            <div><Settings
+                setValues={setValues}
+                initialValues={initialValues}
+                usedValues={usedValues}/></div>
+            <div><Present
+                change={changeCounter}
+                reset={resetCounter}
+                initialValues={initialValues}
+                usedValues={usedValues}
+            /></div>
         </div>
+
 
     )
 

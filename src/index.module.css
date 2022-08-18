@@ -12,7 +12,3 @@ code {
     monospace;
 }
 
-.counter {
-  display: flex;
-  justify-content: space-between;
-}

@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import style from "./ButtonSet.module.css"
+import React, {useEffect, useState} from "react";
+import style from "./Setting.module.css"
 import {TValues} from "./App";
 
 type SettingsPropsType = {
@@ -8,11 +8,34 @@ type SettingsPropsType = {
     setValues: (newValues: TValues) => void
 }
 
-
-
 export function Settings(props: SettingsPropsType) {
     const [maxInput, setMaxInput] = useState(props.initialValues.max)
     const [minInput, setMinInput] = useState(props.initialValues.min)
+
+    // useEffect(() => {
+    // let maxInputAsString = localStorage.getItem('maxInput')
+    //     if(maxInputAsString) {
+    //         let newMaxInputValue = JSON.parse(maxInputAsString)
+    //         setMaxInput(newMaxInputValue)
+    //     }
+    // }, [])
+    //
+    // useEffect( () => {
+    // localStorage.setItem('maxInput', JSON.stringify(maxInput))
+    // }, [maxInput])
+    //
+    // useEffect(() => {
+    //     let minInputAsString = localStorage.getItem('minInput')
+    //     if(minInputAsString) {
+    //         let newMinInputValue = JSON.parse(minInputAsString)
+    //         setMinInput(newMinInputValue)
+    //     }
+    // }, [])
+    //
+    // useEffect( () => {
+    //     localStorage.setItem('minInput', JSON.stringify(minInput))
+    // }, [minInput])
+
     const setValues = () => {
         const newValues: TValues = {min: minInput, max: maxInput}
         props.setValues(newValues)
@@ -20,10 +43,20 @@ export function Settings(props: SettingsPropsType) {
     return (
         <div className={style.settings}>
             <div className={style.inputs}>
-                <div>max <input type={"number"} onChange={(event) => setMaxInput(Number(event.currentTarget.value))} value={maxInput} className={style.input}/></div>
-                <div>min <input type={"number"} onChange={(event) => setMinInput(Number(event.currentTarget.value))} value={minInput} className={style.input}/></div>
+                <div>max <input type={"number"}
+                                onChange={(event) => setMaxInput(Number(event.currentTarget.value))}
+                                value={maxInput}
+                                className={props.initialValues.min >= props.initialValues.max ||
+                                props.initialValues.max < 0 ? style.error_input : style.input}/>
+                </div>
+                <div>min <input type={"number"}
+                                onChange={(event) => setMinInput(Number(event.currentTarget.value))}
+                                value={minInput}
+                                className={props.initialValues.min === props.initialValues.max ||
+                                props.initialValues.min < 0 ? style.error_input : style.input}/>
+                </div>
             </div>
-            <button onClick={setValues}> Set </button>
+            <button onClick={setValues}> Set</button>
         </div>
 
     )
