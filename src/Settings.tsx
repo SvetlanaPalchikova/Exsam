@@ -10,31 +10,32 @@ type SettingsPropsType = {
 
 export function Settings(props: SettingsPropsType) {
     const [maxInput, setMaxInput] = useState(props.initialValues.max)
+
+    useEffect(() => {
+    let maxInputAsString = localStorage.getItem('maxInput')
+        if(maxInputAsString) {
+            let newMaxInputValue = JSON.parse(maxInputAsString)
+            setMaxInput(newMaxInputValue)
+        }
+    }, [])
+
+    useEffect( () => {
+    localStorage.setItem('maxInput', JSON.stringify(maxInput))
+    }, [maxInput])
+
     const [minInput, setMinInput] = useState(props.initialValues.min)
 
-    // useEffect(() => {
-    // let maxInputAsString = localStorage.getItem('maxInput')
-    //     if(maxInputAsString) {
-    //         let newMaxInputValue = JSON.parse(maxInputAsString)
-    //         setMaxInput(newMaxInputValue)
-    //     }
-    // }, [])
-    //
-    // useEffect( () => {
-    // localStorage.setItem('maxInput', JSON.stringify(maxInput))
-    // }, [maxInput])
-    //
-    // useEffect(() => {
-    //     let minInputAsString = localStorage.getItem('minInput')
-    //     if(minInputAsString) {
-    //         let newMinInputValue = JSON.parse(minInputAsString)
-    //         setMinInput(newMinInputValue)
-    //     }
-    // }, [])
-    //
-    // useEffect( () => {
-    //     localStorage.setItem('minInput', JSON.stringify(minInput))
-    // }, [minInput])
+    useEffect(() => {
+        let minInputAsString = localStorage.getItem('minInput')
+        if(minInputAsString) {
+            let newMinInputValue = JSON.parse(minInputAsString)
+            setMinInput(newMinInputValue)
+        }
+    }, [])
+
+    useEffect( () => {
+        localStorage.setItem('minInput', JSON.stringify(minInput))
+    }, [minInput])
 
     const setValues = () => {
         const newValues: TValues = {min: minInput, max: maxInput}

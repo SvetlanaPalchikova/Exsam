@@ -10,30 +10,31 @@ export type TValues = {
 
 function App() {
     const [initialValues, setInitialValues] = useState<TValues>({min: 0, max: 5})
+
+    useEffect(() => {
+        let initialValueAsString = localStorage.getItem('InitialValue')
+        if(initialValueAsString) {
+            let newInitialValue = JSON.parse(initialValueAsString)
+            setInitialValues(newInitialValue)
+        }
+    }, [])
+
+    useEffect( () => {
+        localStorage.setItem('InitialValue', JSON.stringify(initialValues))
+    }, [initialValues])
+
     const [usedValues, setUsedValues] = useState<TValues>({min: 0, max: 5})
 
     useEffect(() => {
         let usedValuesFromLocalStorage = localStorage.getItem('usedValues')
         if (usedValuesFromLocalStorage) {
-            setUsedValues(JSON.parse(usedValuesFromLocalStorage))
+           setUsedValues(JSON.parse(usedValuesFromLocalStorage))
         }
     }, [])
 
     useEffect(() => {
         localStorage.setItem('usedValues', JSON.stringify(usedValues))
     }, [usedValues])
-
-    // useEffect(() => {
-    //     let initialValueAsString = localStorage.getItem('counterInitialValue')
-    //     if(initialValueAsString) {
-    //         let newInitialValue = JSON.parse(initialValueAsString)
-    //         setUsedValues(newInitialValue)
-    //     }
-    // }, [])
-    //
-    // useEffect( () => {
-    //     localStorage.setItem('counterInitialValue', JSON.stringify(initialValues))
-    // }, [initialValues])
 
     const changeCounter = () => {
         const newCount = usedValues.min + 1
